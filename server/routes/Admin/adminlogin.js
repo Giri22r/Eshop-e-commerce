@@ -140,7 +140,7 @@ router.post(`/logout`, async (req, res) => {
         } else {
             console.log("token found ")
 
-            return res.json({"logoutsts":0, "msg":"logout is sucessfull"})
+            return res.json({"logoutsts":0, "msg":"logout is sucessfull git wala"})
 
         }
         
