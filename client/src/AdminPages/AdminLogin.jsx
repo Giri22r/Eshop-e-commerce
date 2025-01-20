@@ -107,6 +107,9 @@ const AdminLogin = () => {
                                         />
                                     </div>
                                 </div>
+                               <div class="mb-3 text-center">
+                                     Forget Password!! <a href='adminforgetpass'> Click Here </a> 
+                               </div>
                                 <button type="submit" className="btn btn-light btn-block" onClick={handleLogin} style={{ borderRadius: '25px', fontWeight: 'bold', color: '#4e73df' }}>Login</button>
                             </form>
                         </div>

@@ -1,5 +1,6 @@
 const Admin = require(`../../models/Admin`)
 const Admintoken = require(`../../models/Admintoken`)
+const AdminPassReset = require(`../../models/AdminPassReset`)
 const bcrypt = require(`bcryptjs`)
 const express = require(`express`)
 const router = express.Router()

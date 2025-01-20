@@ -22,6 +22,7 @@ const adminTokenSchema = new mongoose.Schema({
         type:Date,
         required: true,
     }
+    
 
 })
 

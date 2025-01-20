@@ -61,6 +61,7 @@ import AdminHome from "./AdminPages/AdminHome";
 import AdminLogin from "./AdminPages/AdminLogin";
 import ChangePassword from "./AdminPages/ChangePassword";
 import UserHome  from "./UserPages/UserHome";
+import ForgetPass  from "./AdminPages/ForgetPass";
 
 
 function App() {
@@ -92,6 +93,8 @@ function App() {
         <Route exact path="/adminlogin" element={<AdminLogin />} />
         <Route exact path="/adminhome" element={<AdminHome />} />
         <Route exact path="/adminchangepass" element={<ChangePassword />} />
+        <Route exact path="/adminforgetpass" element={<ForgetPass />} />
+
       </Routes>
     </BrowserRouter>
   );
