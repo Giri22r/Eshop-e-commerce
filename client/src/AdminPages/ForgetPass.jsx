@@ -5,6 +5,7 @@ import AdminNav from '../CommonComponents/AdminNav';
 import ErrorMessage from '../CommonComponents/ErrorMessage'
 import { toast } from 'react-toastify';
 import {ToastContainer} from "react-toastify"
+import axios from 'axios';
 
 
 
@@ -15,12 +16,44 @@ const ForgetPass = () => {
         const [msg, setMsg] = useState('');
         const [type, setType] = useState('');
 
+
+        const [resetpassdt, setResetpassdt] = useState({
+            admin_email:"",
+        })
+
+
+
     const handleInputChange = async (e) => {
+        const {name, value} = e.target;
         
+        setResetpassdt({
+            ...resetpassdt,
+            [name]:value,
+        })
+
+
     }
 
     const handleSubmit = async (e) => {
-        
+        e.preventDefault()
+        try {
+            const res = await axios.post("http://localhost:5000/adminloginapi/sendresetlink",resetpassdt)
+            if (res.data.sts===0) {
+                setType("sucess")
+            } else {
+                setType("error")
+            }
+            setShowToast(true)
+            setMsg(res.data.msg)
+            setTimeout(() => {
+                setShowToast(false)
+            }, 3000);
+            console.log(res)
+
+        } catch (error) {
+            console.error(error)
+            
+        }
     }
 
 
@@ -49,7 +82,7 @@ const ForgetPass = () => {
                                         </span>
                                     </div>
                                     <input
-                                        type="password"
+                                        type="email"
                                         className="form-control"
                                         id="admin_email"
                                         name="admin_email"

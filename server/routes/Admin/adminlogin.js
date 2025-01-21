@@ -5,6 +5,8 @@ const bcrypt = require(`bcryptjs`)
 const express = require(`express`)
 const router = express.Router()
 const jwt = require(`jsonwebtoken`)
+const shortid = require(`shortid`)
+const { sendEmail } = require("../../CommonSnipes/emailSender")
 
 
 
@@ -151,6 +153,41 @@ router.post(`/logout`, async (req, res) => {
     }
 
 })
+
+
+//http://localhost:5000/adminloginapi/sendresetlink
+router.post(`/senderressendresetlink`, async(req, res)=>{
+    const admin_email = req.body.admin_email;
+
+    try {
+        const findadmin = await Admin.findOne({admin_email})
+        if (!findadmin) {
+            return res.json({"sts":1, "msg":"Email Not Found"})
+        } else {
+            const subject = "E-shop : Reset password link";
+            const reset_token = shortid.generate()
+            const expriresAT = new Date(Date.now()+(60*60*1000))
+            const text = `Your reset password is: http://localhost:3000/adminpassreset/${reset_token}`
+            const saveResetToken = new AdminPassReset({
+                admin_email,
+                reset_token,
+                expriresAT
+            })
+            const result = await saveResetToken.save();
+
+            //sendEmail(admin_email, subject,text)
+            return res.json({"sts":0, "msg":"Your reset link sent", "reset_url":`http://localhost:3000/adminpassreset/${reset_token}`})
+        }
+
+    } catch (error) {
+        console.error(error)
+    }
+
+
+
+})
+
+
 
 
 
