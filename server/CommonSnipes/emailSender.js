@@ -8,7 +8,7 @@ const transpoter = nodeMailer.createTransport({
     host:`smtp.gmail.com`,
     port: 587,
     auth:{
-        user:`Enter Your Email`,
+        user:`Enter your email`,
         pass:`pass`
     },
 
@@ -16,7 +16,7 @@ const transpoter = nodeMailer.createTransport({
 
 const sendEmail = async (to, subject, text) => {
     const mailOptions = {
-        from :  `noreply@test.com `,
+        from :  `basant.business22@gmail.com`,
         to,
         subject, 
         text

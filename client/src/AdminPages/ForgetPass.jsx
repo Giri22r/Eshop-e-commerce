@@ -34,27 +34,32 @@ const ForgetPass = () => {
 
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await axios.post("http://localhost:5000/adminloginapi/sendresetlink",resetpassdt)
-            if (res.data.sts===0) {
-                setType("sucess")
-            } else {
-                setType("error")
-            }
-            setShowToast(true)
-            setMsg(res.data.msg)
-            setTimeout(() => {
-                setShowToast(false)
-            }, 3000);
-            console.log(res)
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        console.log("the value of resetpassdt before sending",resetpassdt)
+        try {
+            const res = await axios.post("http://localhost:5000/adminloginapi/sendresetlink", resetpassdt);
+            console.log(res);
+            setShowToast(true);
+            setMsg(res.data.msg);
+            if (res.data.sts === 0) {
+               // setType('sucess');
+               toast.success(res.data.msg); // Use toast.success directly
+            } else {
+                //setType('error');
+                toast.error(res.data.msg); // Use toast.error directly
+            }
+            setTimeout(() => {
+                setShowToast(false);
+            }, 3000);
+    
         } catch (error) {
-            console.error(error)
-            
+            console.error(error);
+            toast.error("An error occurred while changing the password.");
         }
-    }
+    };
 
 
 

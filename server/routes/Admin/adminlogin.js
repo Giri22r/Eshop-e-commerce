@@ -156,7 +156,11 @@ router.post(`/logout`, async (req, res) => {
 
 
 //http://localhost:5000/adminloginapi/sendresetlink
-router.post(`/senderressendresetlink`, async(req, res)=>{
+router.post(`/sendresetlink`, async(req, res)=> {
+
+    console.log("sendresetlink endpoint hit");
+    console.log("Reset Value after sent to the server: ",req.body.admin_email)
+
     const admin_email = req.body.admin_email;
 
     try {
@@ -175,7 +179,7 @@ router.post(`/senderressendresetlink`, async(req, res)=>{
             })
             const result = await saveResetToken.save();
 
-            //sendEmail(admin_email, subject,text)
+            sendEmail(admin_email, subject,text)
             return res.json({"sts":0, "msg":"Your reset link sent", "reset_url":`http://localhost:3000/adminpassreset/${reset_token}`})
         }
 
@@ -185,6 +189,41 @@ router.post(`/senderressendresetlink`, async(req, res)=>{
 
 
 
+})
+
+
+
+
+//http://localhost:5000/adminloginapi/resetpass
+router.post(`/resetpass`,async (req, res)=>{
+
+    console.log("resetpass endpoint hit");
+    console.log("resetpass Value after sent to the server: ",req.body.reset_token)
+
+    const reset_token = req.body.reset_token;
+    const admin_pass = await bcrypt.hash(req.body.admin_pass,12)
+
+    try {
+        const findadmin = await AdminPassReset.findOne({reset_token})
+        
+        if(!findadmin){
+            res.json({"sts":1, "msg":"Your link is expired"})
+        }else{
+            const admin_email = findadmin.admin_email;
+            const updateAdminpass = await Admin.findOneAndUpdate(
+                {admin_email:admin_email},
+                {$set:{
+                    admin_pass:admin_pass,
+                }},
+                {new:true}
+            )
+        }
+        const deltoken = await AdminPassReset.findOneAndDelete({reset_token})
+        res.json({"sts":0, "msg":"Your password is updated"})
+
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 
